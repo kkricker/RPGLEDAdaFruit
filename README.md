@@ -8,15 +8,16 @@ Present Rules:
   
 User Inputs/Outputs:
 INPUTS:
-This game has 4 inputs 3 being the ISR’s and one being sensor queued.
-2 of the ISR’s are the Left and Right buttons D4 and D5, these buttons control the LED players movement, Right going left and Left going Right (I will tweak to fix controls).
+This game has 3 inputs.
+2 of the ISR’s are the Left and Right buttons D4 and D5, these buttons control the LED players movement, Right going right Left going left, Button1 Controls the Attack of the Player as well.
 ISR RAW:
 Switch: Slide switch equals the volatile bool “SFlag”.
-Button1:Turns the Following volatile bool true “B1Flag” and “BF1Flag”.
+Button1:Turns the Following volatile bool true “B1Flag” and “BF1Flag” and "B3Flag".
 Button2:Turns the Following volatile bool true “B2Flag” and “BF2Flag”.
 
 OUTPUTS:
 The Outputs of the code are The LEDs/Color of LEDs, Speaker for TTS, and Sounds from the tone maker.
+Decreases Monster HP LEDs when Button 1 pressed.
 LEDS:
 The LEDs have Multiple 2D arrays that are for functions that control the level. Each Level is in a Case 1-5 in those Case functions there is a Function for the Player LED to Move and the moving monster to defeat aswell as a goal that lights up when a monster is defeated but you can go to the goal with out defeating the mosnter.
 To make the LED Player Move I have the volatile int “MOVE” in the function to set the LED on and to move you press the Left or Right buttons to increment between 1 and 8 in and that value incrementing or decrementing is the MOVE value in the function to set the LED on.
@@ -28,3 +29,13 @@ TTS AND PLAYTONE:
 The TTS is a Speaker function that speaks the following Word that I stored in memory:READY, START, THE, MOVING, AND, USE, LEFT, RIGHT, FOR, TARGET, ZONE, GREAT, LIGHTS, LEVEL, FINAL, ABORT.
 Not all words are used but in future use they will.
 The playtone function uses the midi to make notes from there and uses a beep for Monster contact, fighting,and leveling up.
+
+MONSTER RNG AND MOVEMENT:
+Monsters follow 2 RNG Random function from 1-100 to move forward or backwords within the LED bounds.
+Monster: The first monster attacks and has a 50% chance of missing, the second monster heals every turn it attacks and misses 50% of the time.
+
+LEVEL UP:
+When the player defeats a monster it gains +1 EXP and if the EXP ==3 then the player levels up, when leveled up AT=2 and HP is set back to 5.
+
+GAME OVER:
+If player HP reaches 0 in a monster fight and Monster's Hp is above 0 then the player dies and a Game over tone plays then the Screen goes red and plays a game over song.

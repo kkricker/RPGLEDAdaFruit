@@ -105,13 +105,16 @@ int LEDM6[10][4]={
   {8,200,0,0},
   {9,200,0,0}
 };
+volatile int EXP = 0;
 volatile int PlayerAT=1;
 volatile int PlayerHP=5;
+volatile int LEVEL=1;
 int MonsterAT=1;
 int MonsterHP=3;
 int MonsterAT1=1;
 int MonsterHP1=3;
 int ACOIN;
+int BCOIN;
  int MAP = 11;
  int Svalue;
  int LOUD=100;
@@ -173,8 +176,8 @@ int SD2 =random(64,83);
 int SD3 =random(64,83);
 
 int MON =random(1,100);
-int CCOIN =random(3,5);
-int DCOIN =random(5,7);
+int MON1 =random(1,100);
+
 
 
 if(MonsterHP<6){
@@ -184,48 +187,42 @@ if(MonsterHP<6){
       }else{
         ACOIN++;
       }
-    delay(500);
+    delay(200);
   }else if(MON<=50){
     if(ACOIN<=1){
       ACOIN==2;
       }else{
         ACOIN--;
       }
-    delay(500);
+    delay(200);
   }
 }else if(MonsterHP>=6){
 ACOIN=0;
 }
 if(MonsterHP1<6){
-  if (MON>50){
+  if (MON1>50){
     if(BCOIN>9){
       BCOIN==8;
       }else{
         BCOIN++;
       }
-    delay(500);
-  }else if(MON<=50){
+    delay(200);
+  }else if(MON1<=50){
     if(BCOIN<=1){
       BCOIN==2;
       }else{
         BCOIN--;
       }
-    delay(500);
+    delay(200);
   }
 }else if(MonsterHP1>=6){
-ACOIN=0;
+BCOIN=0;
 }
 //Serial.println(ACOIN);
 if(MAP<=5){
 if(!SFlag){
   B1Flag = false;
   B2Flag = false;
-Svalue = CircuitPlayground.mic.soundPressureLevel(50);
-if(Svalue>=LOUD){
-  CircuitPlayground.speaker.say(spABORT);
-  CircuitPlayground.speaker.say(spLEVEL);
-  MAP=1;
-}
   if(BF1Flag){
     if(MOVE>=8){
       MOVE=8;
@@ -285,12 +282,12 @@ if(Svalue>=LOUD){
           }
           //CircuitPlayground.speaker.say(spLEVEL);
           TFlag = false;
-          PlayerAT=1;
           PlayerHP++;
-          MonsterHP=2;
+          MonsterHP1=2;
           GOLD=8;
-          ACOIN=8;
+          BCOIN=8;
           MAP=2;
+          LEVEL++;
         }
         if(MOVE==ACOIN){
           CircuitPlayground.playTone(100, 300);
@@ -307,17 +304,15 @@ if(Svalue>=LOUD){
         CircuitPlayground.setPixelColor(LEDM1[i][0],LEDM1[i][1],LEDM1[i][2],LEDM1[i][3]);
       }
         CircuitPlayground.setPixelColor(MOVE, 255, 255, 255);
-        if(MonsterHP<6){
-        CircuitPlayground.setPixelColor(ACOIN, 200, 0, 0);
+        if(MonsterHP1<6){
+        CircuitPlayground.setPixelColor(BCOIN, 200, 0, 0);
         }
        if (TFlag){
         CircuitPlayground.setPixelColor(GOLD, 100, 100, 0);
         }
-         if(MOVE==ACOIN){
+         if(MOVE==BCOIN){
           CircuitPlayground.playTone(100, 300);
           MAP=7;
-
-
         }
         if(GOLD==MOVE){
         for (int i = 0; i < sizeof(YES4) / sizeof(int); i++) {
@@ -326,12 +321,14 @@ if(Svalue>=LOUD){
           }
           //CircuitPlayground.speaker.say(spLEVEL);
           TFlag = false;
-          PlayerAT=1;
           PlayerHP++;
           MonsterHP=1;
+          MonsterHP1=2;
           GOLD=1;
           ACOIN=1;
+          BCOIN=2;
           MAP=3;
+          LEVEL++;
         }
 
     break;
@@ -340,18 +337,77 @@ if(Svalue>=LOUD){
         CircuitPlayground.setPixelColor(LEDM2[i][0],LEDM2[i][1],LEDM2[i][2],LEDM2[i][3]);
       }
         CircuitPlayground.setPixelColor(MOVE, 255, 255, 255);
-
-        
-        
-
+        if(MonsterHP<6){
+        CircuitPlayground.setPixelColor(ACOIN, 200, 0, 0);
+        }
+         if(MonsterHP1<6){
+        CircuitPlayground.setPixelColor(BCOIN, 150, 50, 0);
+        }
+       if (TFlag){
+        CircuitPlayground.setPixelColor(GOLD, 100, 100, 0);
+        }
+         if(MOVE==ACOIN){
+          CircuitPlayground.playTone(100, 300);
+          MAP=6;
+        }
+         if(MOVE==BCOIN){
+          CircuitPlayground.playTone(100, 300);
+          MAP=7;
+        }
+        if(GOLD==MOVE){
+        for (int i = 0; i < sizeof(YES4) / sizeof(int); i++) {
+          CircuitPlayground.playTone(midi[YES1[i]], 70);
+          CircuitPlayground.playTone(midi[YES2[i]], 70);
+          }
+          //CircuitPlayground.speaker.say(spLEVEL);
+          TFlag = false;
+          PlayerHP++;
+          MonsterHP=1;
+          MonsterHP1=1;
+          GOLD=8;
+          ACOIN=8;
+          BCOIN=7;
+          MAP=4;
+          LEVEL++;
+        }
     break;
     case 4:
-      for (int i = 0; i < sizeof(LEDM3) / sizeof(LEDM3[0]); i++){
-        CircuitPlayground.setPixelColor(LEDM3[i][0],LEDM3[i][1],LEDM3[i][2],LEDM3[i][3]);
+      for (int i = 0; i < sizeof(LEDM2) / sizeof(LEDM2[0]); i++){
+        CircuitPlayground.setPixelColor(LEDM2[i][0],LEDM2[i][1],LEDM2[i][2],LEDM2[i][3]);
       }
         CircuitPlayground.setPixelColor(MOVE, 255, 255, 255);
-        CircuitPlayground.setPixelColor(DCOIN, 0, 0, 255);
-      
+        if(MonsterHP<6){
+        CircuitPlayground.setPixelColor(ACOIN, 200, 0, 0);
+        }
+         if(MonsterHP1<6){
+        CircuitPlayground.setPixelColor(BCOIN, 150, 50, 0);
+        }
+       if (TFlag){
+        CircuitPlayground.setPixelColor(GOLD, 100, 100, 0);
+        }
+         if(MOVE==ACOIN){
+          CircuitPlayground.playTone(100, 300);
+          MAP=6;
+        }
+         if(MOVE==BCOIN){
+          CircuitPlayground.playTone(100, 300);
+          MAP=7;
+        }
+        if(GOLD==MOVE){
+        for (int i = 0; i < sizeof(YES4) / sizeof(int); i++) {
+          CircuitPlayground.playTone(midi[YES1[i]], 70);
+          CircuitPlayground.playTone(midi[YES2[i]], 70);
+          }
+          //CircuitPlayground.speaker.say(spLEVEL);
+          TFlag = false;
+          PlayerHP++;
+          MonsterHP=1;
+          GOLD=1;
+          ACOIN=1;
+          BCOIN=1;
+          MAP=5;
+          LEVEL++;
+        }
         
 
     break;
@@ -363,6 +419,50 @@ if(Svalue>=LOUD){
 
     break; 
     case 6:
+    if(MON>75){
+        PlayerHP--;
+        Serial.println("HIT");
+        CircuitPlayground.playTone(1000,50);
+       }else if(MON<=75){
+        Serial.println("MISS");
+        CircuitPlayground.playTone(100,50);
+       }
+    if (B3Flag){
+      delay(50);
+      CircuitPlayground.playTone(700,50);
+  
+        MonsterHP++;
+        if(PlayerAT==2){
+          MonsterHP++;
+        }
+        //Serial.println(MonsterHP);
+
+      if(MonsterHP>=6){
+        CircuitPlayground.clearPixels();
+      EXP++;
+      if (EXP==3){
+            PlayerAT=2;
+            PlayerHP=5;
+      //CircuitPlayground.speaker.say(spLEVEL);
+      delay(50);
+      for (int i = 0; i < sizeof(YES4) / sizeof(int); i++) {
+          CircuitPlayground.playTone(midi[YES1[i]], 100);
+          CircuitPlayground.playTone(midi[YES2[i]], 100);
+          }
+      EXP=0;
+      }
+      MAP=LEVEL;
+      TFlag = true;
+
+      }
+      B3Flag=false;
+      }
+    if(PlayerHP==0){
+    CircuitPlayground.clearPixels();
+    CircuitPlayground.playTone(50,2000);
+    MAP=11;
+    
+    }
       for (int i = 0; i < sizeof(LEDM5) / sizeof(LEDM5[0]); i++){
         CircuitPlayground.setPixelColor(LEDM5[i][0],LEDM5[i][1],LEDM5[i][2],LEDM5[i][3]);
       }
@@ -372,18 +472,21 @@ if(Svalue>=LOUD){
       for (int i =PlayerHP+4; i > 4; i--){
         CircuitPlayground.setPixelColor(i, 255, 100, 0);
       }
-    if(PlayerHP==0){
-    CircuitPlayground.clearPixels();
-    CircuitPlayground.playTone(50,2000);
-    MAP=11;
-    
-    }
-       if(MON>75){
+      
+      delay(500);
+
+    break;
+    case 7:
+       if(MON1>50){
         PlayerHP--;
+        MonsterHP1--;
+       
+
         Serial.println("HIT");
         CircuitPlayground.playTone(1000,50);
-       }else if(MON<=75){
+       }else if(MON1<=50){
         Serial.println("MISS");
+      
         CircuitPlayground.playTone(100,50);
 
 
@@ -392,63 +495,50 @@ if(Svalue>=LOUD){
       delay(50);
       CircuitPlayground.playTone(700,50);
   
-        MonsterHP++;
+        MonsterHP1++;
+        if(PlayerAT==2){
+          MonsterHP++;
+        }
+       
         //Serial.println(MonsterHP);
 
-      if(MonsterHP>=6){
-      MAP=1;
+      if(MonsterHP1>=6){
+      EXP++;
+      PlayerHP=5;
+      if (EXP==3){
+      CircuitPlayground.clearPixels();
+      PlayerHP=5;
+      PlayerAT=2;
+      //CircuitPlayground.speaker.say(spLEVEL);
+       delay(50);
+      for (int i = 0; i < sizeof(YES4) / sizeof(int); i++) {
+          CircuitPlayground.playTone(midi[YES1[i]], 100);
+          CircuitPlayground.playTone(midi[YES2[i]], 100);
+          }
+      EXP=0;
+      }
+      MAP=LEVEL;
       TFlag = true;
 
       }
       B3Flag=false;
       }
-      delay(600);
-
-    break;
-    case 7:
-    for (int i = 0; i < sizeof(LEDM5) / sizeof(LEDM5[0]); i++){
+      if(PlayerHP==0){
+    CircuitPlayground.clearPixels();
+    CircuitPlayground.playTone(50,2000);
+    MAP=11; 
+    }
+      for (int i = 0; i < sizeof(LEDM5) / sizeof(LEDM5[0]); i++){
         CircuitPlayground.setPixelColor(LEDM5[i][0],LEDM5[i][1],LEDM5[i][2],LEDM5[i][3]);
       }
-      for (int i = MonsterHP-1; i < 5; i++){
+      for (int i = MonsterHP1-1; i < 5; i++){
         CircuitPlayground.setPixelColor(i, 200, 0, 200);
       }
       for (int i =PlayerHP+4; i > 4; i--){
         CircuitPlayground.setPixelColor(i, 255, 200, 0);
       }
-    if(PlayerHP==0){
-    CircuitPlayground.clearPixels();
-    CircuitPlayground.playTone(50,2000);
-    MAP=11;
-    
-    }
-       if(MON>50){
-        PlayerHP--;
-        MonsterHP--;
-        Serial.println("HIT");
-        CircuitPlayground.playTone(1000,50);
-       }else if(MON<=50){
-        Serial.println("MISS");
-        MonsterHP--;
-        CircuitPlayground.playTone(100,50);
 
-
-       }
-      if (B3Flag){
-      delay(50);
-      CircuitPlayground.playTone(700,50);
-  
-        MonsterHP++;
-        MonsterHP++;
-        //Serial.println(MonsterHP);
-
-      if(MonsterHP>=6){
-      MAP=2;
-      TFlag = true;
-
-      }
-      B3Flag=false;
-      }
-      delay(600);
+      delay(500);
     break; 
     case 8:
     break; 

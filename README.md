@@ -26,16 +26,15 @@ The COIN Values A-B.  A RandomSeed is applied for variation in movement for goin
 
 
 TTS AND PLAYTONE:
-The TTS is a Speaker function that speaks the following Word that I stored in memory:READY, START, THE, MOVING, AND, USE, LEFT, RIGHT, FOR, TARGET, ZONE, GREAT, LIGHTS, LEVEL, FINAL, ABORT.
-Not all words are used but in future use they will.
+The TTS is a Speaker function that speaks the following Word that I stored in memory:READY,and  START.
 The playtone function uses the midi to make notes from there and uses a beep for Monster contact, fighting,and leveling up.
 
 MONSTER RNG AND MOVEMENT:
 Monsters follow 2 RNG Random function from 1-100 to move forward or backwords within the LED bounds.
-Monster: The first monster attacks and has a 50% chance of missing, the second monster heals every turn it attacks and misses 50% of the time.
+Monster: The first monster attacks and has a 75% chance of missing, the second monster heals every turn it attacks and misses 65% of the time, the third monster has a 50% chance of missing healing on misses and hits, The last boss monster has a 70% chance of missing healing on misses and does 2 damage to the player on hits instead of 1.
 
 LEVEL UP:
-When the player defeats a monster it gains +1 EXP and if the EXP ==3 then the player levels up, when leveled up AT=2 and HP is set back to 5.
+When the player defeats a monster it gains +1 EXP and if the EXP ==3 then the player levels up, when leveled up AT=2 and HP is set back to 5, when EXP==6 AT=3 and HP=7, lvl is printed on Serial
 
 GAME OVER:
 If player HP reaches 0 in a monster fight and Monster's Hp is above 0 then the player dies and a Game over tone plays then the Screen goes red and plays a game over song.

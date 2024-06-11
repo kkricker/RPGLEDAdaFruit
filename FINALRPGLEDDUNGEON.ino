@@ -714,13 +714,13 @@ void loop() {
             MonsterHP3++;
           }
 
-          if (MonsterHP2 >= 6) {  // On Boss death goes to MAP 10 the Celebration stage
+          if (MonsterHP3 >= 6) {  // On Boss death goes to MAP 10 the Celebration stage
 
             MAP = 10;
           }
           B3Flag = false;
         }
-        if (PlayerHP == 0) {
+        if (PlayerHP <= 0) {
           CircuitPlayground.clearPixels();
           CircuitPlayground.playTone(50, 2000);
           MAP = 11;
@@ -728,7 +728,7 @@ void loop() {
         for (int i = 0; i < sizeof(LEDM5) / sizeof(LEDM5[0]); i++) {
           CircuitPlayground.setPixelColor(LEDM5[i][0], LEDM5[i][1], LEDM5[i][2], LEDM5[i][3]);
         }
-        for (int i = MonsterHP2 - 1; i < 5; i++) {
+        for (int i = MonsterHP3 - 1; i < 5; i++) {
           CircuitPlayground.setPixelColor(i, 200, 0, 200);
         }
         for (int i = PlayerHP + 4; i > 4; i--) {
